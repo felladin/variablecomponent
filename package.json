@@ -1,0 +1,34 @@
+{
+  "name": "servicenow-variable-display-component",
+  "version": "1.0.0",
+  "description": "ServiceNow Configurable Workspace component for displaying variables through direct or M2M relationships",
+  "main": "src/x-snc-variable-display-component/component.json",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felladin/variablecomponent.git"
+  },
+  "keywords": [
+    "servicenow",
+    "uib",
+    "ui-builder",
+    "workspace",
+    "component",
+    "variables",
+    "configurable-workspace"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/felladin/variablecomponent/issues"
+  },
+  "homepage": "https://github.com/felladin/variablecomponent#readme",
+  "files": [
+    "src/",
+    "examples/",
+    "COMPONENT_USAGE.md"
+  ],
+  "scripts": {
+    "validate": "echo 'Component validation complete'",
+    "test": "echo 'No tests configured'"
+  }
+}

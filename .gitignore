@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+bower_components/
+
+# Build outputs
+dist/
+build/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# ServiceNow specific
+*.xml
+update_sets/
+
+# Environment files
+.env
+.env.local

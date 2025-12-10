@@ -1,0 +1,86 @@
+{
+  "name": "x-snc-variable-display-component",
+  "label": "Variable Display Component",
+  "description": "Display variables associated with records through direct or M2M relationships",
+  "version": "1.0.0",
+  "category": "record",
+  "dataProviders": [
+    {
+      "name": "variableDataProvider",
+      "script": "data_provider.js"
+    }
+  ],
+  "properties": {
+    "variableTable": {
+      "label": "Variable Table",
+      "description": "The table containing the variables to display",
+      "fieldType": "string",
+      "defaultValue": "item_option_new",
+      "mandatory": true
+    },
+    "relationshipType": {
+      "label": "Relationship Type",
+      "description": "How variables are related to the record",
+      "fieldType": "choice",
+      "choices": [
+        {
+          "label": "Direct",
+          "value": "direct"
+        },
+        {
+          "label": "Many-to-Many",
+          "value": "m2m"
+        }
+      ],
+      "defaultValue": "direct",
+      "mandatory": true
+    },
+    "m2mTable": {
+      "label": "M2M Table",
+      "description": "The many-to-many relationship table name (required if relationship type is M2M)",
+      "fieldType": "string",
+      "defaultValue": "",
+      "mandatory": false
+    },
+    "m2mSourceField": {
+      "label": "M2M Source Field",
+      "description": "Field in M2M table that references the current record",
+      "fieldType": "string",
+      "defaultValue": "parent",
+      "mandatory": false
+    },
+    "m2mVariableField": {
+      "label": "M2M Variable Field",
+      "description": "Field in M2M table that references the variable",
+      "fieldType": "string",
+      "defaultValue": "variable",
+      "mandatory": false
+    },
+    "directAssociationField": {
+      "label": "Direct Association Field",
+      "description": "Field name in variable table that references the current record (for direct relationships)",
+      "fieldType": "string",
+      "defaultValue": "parent",
+      "mandatory": false
+    },
+    "displayFields": {
+      "label": "Display Fields",
+      "description": "Comma-separated list of fields to display (e.g., question_text,value,type)",
+      "fieldType": "string",
+      "defaultValue": "question_text,value,type",
+      "mandatory": false
+    },
+    "showLabels": {
+      "label": "Show Field Labels",
+      "description": "Display field labels above values",
+      "fieldType": "boolean",
+      "defaultValue": true
+    },
+    "maxRecords": {
+      "label": "Maximum Records",
+      "description": "Maximum number of variables to display",
+      "fieldType": "number",
+      "defaultValue": 50
+    }
+  }
+}
