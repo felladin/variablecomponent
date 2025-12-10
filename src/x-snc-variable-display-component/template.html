@@ -1,0 +1,55 @@
+<div class="variable-display-component">
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="c.data.loading">
+    <div class="loading-spinner">
+      <span class="spinner-border" role="status" aria-label="Loading variables"></span>
+      <span class="loading-text">Loading variables...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="c.data.error && !c.data.loading">
+    <div class="alert alert-danger" role="alert">
+      <i class="icon-alert"></i>
+      <span class="error-message">{{ c.data.error }}</span>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-container" *ngIf="!c.data.hasData && !c.data.loading && !c.data.error">
+    <div class="alert alert-info" role="alert">
+      <i class="icon-info"></i>
+      <span class="empty-message">No variables found for this record.</span>
+    </div>
+  </div>
+
+  <!-- Variables Display -->
+  <div class="variables-container" *ngIf="c.data.hasData && !c.data.loading">
+    <div class="variables-header">
+      <h3 class="variables-title">Variables</h3>
+      <button class="btn btn-link refresh-btn" 
+              (click)="c.refresh()" 
+              title="Refresh variables"
+              aria-label="Refresh variables">
+        <i class="icon-refresh"></i>
+      </button>
+    </div>
+
+    <div class="variables-list">
+      <div class="variable-item" *ngFor="let variable of c.data.variables">
+        <div class="variable-card">
+          <div class="variable-fields">
+            <div class="field-item" *ngFor="let field of variable.fields">
+              <div class="field-label" *ngIf="c.data.showLabels">
+                {{ field.label }}
+              </div>
+              <div class="field-value" [class.field-value-no-label]="!c.data.showLabels">
+                <span [class]="'field-type-' + field.type">{{ field.value }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

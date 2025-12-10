@@ -1,0 +1,173 @@
+{
+  "examples": [
+    {
+      "name": "Request Item Variables - Direct",
+      "description": "Display variables for a catalog request item using direct relationship",
+      "configuration": {
+        "variableTable": "sc_item_option",
+        "relationshipType": "direct",
+        "displayFields": "question_text,value,type",
+        "showLabels": true,
+        "maxRecords": 50
+      },
+      "useCase": "Catalog Task or Request Item pages"
+    },
+    {
+      "name": "Item Options - Direct",
+      "description": "Display item option new variables with extended fields",
+      "configuration": {
+        "variableTable": "item_option_new",
+        "relationshipType": "direct",
+        "displayFields": "question_text,value,type,order,mandatory",
+        "showLabels": true,
+        "maxRecords": 100
+      },
+      "useCase": "Request pages showing all variable details"
+    },
+    {
+      "name": "M2M Variable Association",
+      "description": "Display variables through a many-to-many relationship table",
+      "configuration": {
+        "variableTable": "item_option_new",
+        "relationshipType": "m2m",
+        "m2mTable": "m2m_variable_association",
+        "m2mSourceField": "parent",
+        "m2mVariableField": "variable",
+        "displayFields": "question_text,value,type",
+        "showLabels": true,
+        "maxRecords": 50
+      },
+      "useCase": "Custom tables with M2M variable relationships"
+    },
+    {
+      "name": "Custom Variables - Minimal",
+      "description": "Display custom variables with minimal configuration",
+      "configuration": {
+        "variableTable": "u_custom_variables",
+        "relationshipType": "direct",
+        "displayFields": "u_question,u_answer",
+        "showLabels": false,
+        "maxRecords": 25
+      },
+      "useCase": "Custom variable implementations"
+    },
+    {
+      "name": "Change Request Variables",
+      "description": "Display variables associated with change requests through M2M",
+      "configuration": {
+        "variableTable": "item_option_new",
+        "relationshipType": "m2m",
+        "m2mTable": "m2m_change_variable",
+        "m2mSourceField": "change",
+        "m2mVariableField": "variable",
+        "displayFields": "question_text,value,mandatory,read_only",
+        "showLabels": true,
+        "maxRecords": 75
+      },
+      "useCase": "Change Request pages with associated variables"
+    },
+    {
+      "name": "Incident Variables - Compact",
+      "description": "Compact display of incident-related variables",
+      "configuration": {
+        "variableTable": "u_incident_variables",
+        "relationshipType": "direct",
+        "displayFields": "name,value",
+        "showLabels": false,
+        "maxRecords": 20
+      },
+      "useCase": "Incident pages with space-constrained layouts"
+    },
+    {
+      "name": "Project Variables - Detailed",
+      "description": "Detailed view of project variables with all metadata",
+      "configuration": {
+        "variableTable": "u_project_variables",
+        "relationshipType": "direct",
+        "displayFields": "label,value,description,type,mandatory,default_value",
+        "showLabels": true,
+        "maxRecords": 100
+      },
+      "useCase": "Project management pages requiring full variable details"
+    },
+    {
+      "name": "Service Catalog Variables - M2M",
+      "description": "Service catalog variables through intermediary table",
+      "configuration": {
+        "variableTable": "item_option_new",
+        "relationshipType": "m2m",
+        "m2mTable": "m2m_catalog_item_variable",
+        "m2mSourceField": "catalog_item",
+        "m2mVariableField": "variable_set",
+        "displayFields": "question_text,value,order,mandatory",
+        "showLabels": true,
+        "maxRecords": 50
+      },
+      "useCase": "Catalog item configuration pages"
+    },
+    {
+      "name": "Asset Variables",
+      "description": "Display custom asset attributes as variables",
+      "configuration": {
+        "variableTable": "u_asset_attributes",
+        "relationshipType": "direct",
+        "displayFields": "attribute_name,attribute_value,category",
+        "showLabels": true,
+        "maxRecords": 40
+      },
+      "useCase": "Asset management pages"
+    },
+    {
+      "name": "Survey Responses",
+      "description": "Display survey responses as variables",
+      "configuration": {
+        "variableTable": "asmt_metric_result",
+        "relationshipType": "direct",
+        "displayFields": "metric_type.name,string_value,number_value",
+        "showLabels": true,
+        "maxRecords": 30
+      },
+      "useCase": "Assessment and survey result pages"
+    }
+  ],
+  "commonTables": {
+    "description": "Common ServiceNow tables used for variables",
+    "tables": [
+      {
+        "name": "item_option_new",
+        "description": "Standard variable answers table",
+        "commonFields": ["question_text", "value", "type", "order", "mandatory"]
+      },
+      {
+        "name": "sc_item_option",
+        "description": "Catalog item variables",
+        "commonFields": ["item_option_new", "sc_req_item", "order"]
+      },
+      {
+        "name": "sc_item_option_mtom",
+        "description": "Many-to-many for catalog item variables",
+        "commonFields": ["request_item", "sc_item_option"]
+      }
+    ]
+  },
+  "configurationTips": {
+    "performance": [
+      "Set maxRecords to the minimum required",
+      "Display only necessary fields",
+      "Use direct relationships when possible",
+      "Consider pagination for large datasets"
+    ],
+    "usability": [
+      "Use descriptive field labels",
+      "Order fields logically",
+      "Group related variables",
+      "Provide appropriate feedback messages"
+    ],
+    "maintenance": [
+      "Document custom table structures",
+      "Test configuration changes in sub-production",
+      "Maintain consistent field naming",
+      "Version control configuration changes"
+    ]
+  }
+}
