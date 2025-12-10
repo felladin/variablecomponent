@@ -53,6 +53,7 @@ src/x-snc-variable-display-component/
 | M2M Table | String | - | M2M relationship table name |
 | M2M Source Field | String | `parent` | Field referencing current record |
 | M2M Variable Field | String | `variable` | Field referencing variable |
+| Direct Association Field | String | `parent` | Field referencing current record (direct) |
 | Display Fields | String | `question_text,value,type` | Comma-separated field list |
 | Show Labels | Boolean | `true` | Show field labels |
 | Maximum Records | Number | `50` | Max variables to display |
@@ -65,6 +66,7 @@ src/x-snc-variable-display-component/
 {
   "variableTable": "sc_item_option",
   "relationshipType": "direct",
+  "directAssociationField": "request_item",
   "displayFields": "question_text,value,type",
   "showLabels": true
 }

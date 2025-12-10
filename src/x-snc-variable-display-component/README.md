@@ -92,6 +92,7 @@ Main data provider function that retrieves variables.
 - `input.m2mTable` (String): M2M table name (if applicable)
 - `input.m2mSourceField` (String): M2M source field
 - `input.m2mVariableField` (String): M2M variable field
+- `input.directAssociationField` (String): Direct association field (optional)
 - `input.displayFields` (String): Comma-separated field list
 - `input.maxRecords` (Number): Maximum records to retrieve
 
@@ -106,8 +107,8 @@ Main data provider function that retrieves variables.
 
 ### Internal Functions
 
-#### getDirectVariables(recordId, variableTable, fields, maxRecords)
-Retrieves variables directly associated with a record.
+#### getDirectVariables(recordId, variableTable, associationField, fields, maxRecords)
+Retrieves variables directly associated with a record. If associationField is provided, it uses that specific field; otherwise, it tries common field names.
 
 #### getM2MVariables(recordId, variableTable, m2mTable, sourceField, variableField, fields, maxRecords)
 Retrieves variables through M2M relationship.
@@ -215,6 +216,8 @@ Properties marked as `mandatory: true` must have values for the component to fun
 - Use `setLimit()` to restrict result set
 - Query only necessary fields
 - Use indexed fields in queries when possible
+- M2M queries with >200 variables are automatically batched to avoid query length limits
+- Specify `directAssociationField` for better query performance on direct relationships
 
 ### Client Optimization
 - Lazy loading of data
@@ -296,12 +299,14 @@ gs.info('Result: ' + JSON.stringify(result));
 ## Version History
 
 ### 1.0.0 (Initial Release)
-- Direct relationship support
-- M2M relationship support
+- Direct relationship support with configurable association field
+- M2M relationship support with automatic batching for large datasets
 - Configurable field display
 - Responsive design
-- Error handling
+- Comprehensive error handling
 - Loading states
+- Performance optimizations (client-side loops, query batching)
+- Browser-compatible CSS icons
 
 ## Future Enhancements
 

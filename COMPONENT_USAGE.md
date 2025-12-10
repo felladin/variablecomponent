@@ -66,6 +66,13 @@ The Variable Display Component is a ServiceNow Configurable Workspace component 
 - **Description**: Field in M2M table that references the variable
 - **Required**: No
 
+#### Direct Association Field
+- **Property**: `directAssociationField`
+- **Type**: String
+- **Default**: `parent`
+- **Description**: Field name in variable table that references the current record (for direct relationships). If not specified, the component will try common field names.
+- **Required**: No
+
 #### Display Fields
 - **Property**: `displayFields`
 - **Type**: String (comma-separated)
@@ -96,6 +103,7 @@ Display variables directly associated with a request item:
 {
   "variableTable": "sc_item_option",
   "relationshipType": "direct",
+  "directAssociationField": "request_item",
   "displayFields": "question_text,value",
   "showLabels": true,
   "maxRecords": 50
