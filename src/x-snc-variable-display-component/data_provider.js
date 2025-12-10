@@ -27,6 +27,7 @@
             var m2mTable = input.m2mTable || '';
             var m2mSourceField = input.m2mSourceField || 'parent';
             var m2mVariableField = input.m2mVariableField || 'variable';
+            var directAssociationField = input.directAssociationField || '';
             var displayFields = input.displayFields || 'question_text,value,type';
             var maxRecords = input.maxRecords || 50;
 
@@ -46,6 +47,7 @@
                 result.variables = getDirectVariables(
                     recordId,
                     variableTable,
+                    directAssociationField,
                     fieldsArray,
                     maxRecords
                 );
@@ -82,26 +84,34 @@
      * Get variables directly associated with a record
      * @param {String} recordId - sys_id of the current record
      * @param {String} variableTable - Table containing variables
+     * @param {String} associationField - Specific field name for association (optional)
      * @param {Array} fields - Fields to retrieve
      * @param {Number} maxRecords - Maximum records to retrieve
      * @returns {Array} Array of variable objects
      */
-    function getDirectVariables(recordId, variableTable, fields, maxRecords) {
+    function getDirectVariables(recordId, variableTable, associationField, fields, maxRecords) {
         var variables = [];
         var gr = new GlideRecord(variableTable);
         
         // Add query to find variables associated with this record
-        // Common field names for associations
-        var associationFields = ['parent', 'document_key', 'sys_target', 'request_item', 'task'];
         var queryAdded = false;
         
-        for (var i = 0; i < associationFields.length; i++) {
-            if (gr.isValidField(associationFields[i])) {
-                if (queryAdded) {
-                    gr.addOrCondition(associationFields[i], recordId);
-                } else {
-                    gr.addQuery(associationFields[i], recordId);
-                    queryAdded = true;
+        // If specific association field is provided, use it
+        if (associationField && gr.isValidField(associationField)) {
+            gr.addQuery(associationField, recordId);
+            queryAdded = true;
+        } else {
+            // Otherwise, try common field names for associations
+            var associationFields = ['parent', 'document_key', 'sys_target', 'request_item', 'task'];
+            
+            for (var i = 0; i < associationFields.length; i++) {
+                if (gr.isValidField(associationFields[i])) {
+                    if (queryAdded) {
+                        gr.addOrCondition(associationFields[i], recordId);
+                    } else {
+                        gr.addQuery(associationFields[i], recordId);
+                        queryAdded = true;
+                    }
                 }
             }
         }
@@ -172,6 +182,22 @@
             return variables;
         }
 
+        // Handle large datasets by batching if necessary
+        if (variableIds.length > 200) {
+            // Process in batches to avoid query length limits
+            for (var batch = 0; batch < variableIds.length; batch += 200) {
+                var batchIds = variableIds.slice(batch, batch + 200);
+                var batchGr = new GlideRecord(variableTable);
+                batchGr.addQuery('sys_id', 'IN', batchIds.join(','));
+                batchGr.query();
+                while (batchGr.next()) {
+                    var variable = buildVariableObject(batchGr, fields);
+                    variables.push(variable);
+                }
+            }
+            return variables;
+        }
+        
         varGr.addQuery('sys_id', 'IN', variableIds.join(','));
         varGr.query();
 

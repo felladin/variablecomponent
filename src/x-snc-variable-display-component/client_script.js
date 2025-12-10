@@ -21,6 +21,7 @@
         c.data.m2mTable = c.properties.m2mTable || '';
         c.data.m2mSourceField = c.properties.m2mSourceField || 'parent';
         c.data.m2mVariableField = c.properties.m2mVariableField || 'variable';
+        c.data.directAssociationField = c.properties.directAssociationField || '';
         c.data.displayFields = c.properties.displayFields || 'question_text,value,type';
         c.data.showLabels = c.properties.showLabels !== false;
         c.data.maxRecords = c.properties.maxRecords || 50;
@@ -51,6 +52,7 @@
             m2mTable: c.data.m2mTable,
             m2mSourceField: c.data.m2mSourceField,
             m2mVariableField: c.data.m2mVariableField,
+            directAssociationField: c.data.directAssociationField,
             displayFields: c.data.displayFields,
             maxRecords: c.data.maxRecords
         };
@@ -84,13 +86,15 @@
             return field.trim();
         });
 
-        variables.forEach(function(variable) {
+        for (var i = 0; i < variables.length; i++) {
+            var variable = variables[i];
             var processedVar = {
                 sys_id: variable.sys_id,
                 fields: []
             };
 
-            fieldsArray.forEach(function(fieldName) {
+            for (var j = 0; j < fieldsArray.length; j++) {
+                var fieldName = fieldsArray[j];
                 if (variable[fieldName]) {
                     var field = variable[fieldName];
                     processedVar.fields.push({
@@ -100,10 +104,10 @@
                         type: field.type || 'string'
                     });
                 }
-            });
+            }
 
             processed.push(processedVar);
-        });
+        }
 
         return processed;
     }
@@ -122,6 +126,7 @@
         if (property === 'variableTable' || 
             property === 'relationshipType' || 
             property === 'm2mTable' ||
+            property === 'directAssociationField' ||
             property === 'displayFields' ||
             property === 'maxRecords') {
             // Update data model

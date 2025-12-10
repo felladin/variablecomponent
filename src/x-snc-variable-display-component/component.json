@@ -56,6 +56,13 @@
       "defaultValue": "variable",
       "mandatory": false
     },
+    "directAssociationField": {
+      "label": "Direct Association Field",
+      "description": "Field name in variable table that references the current record (for direct relationships)",
+      "fieldType": "string",
+      "defaultValue": "parent",
+      "mandatory": false
+    },
     "displayFields": {
       "label": "Display Fields",
       "description": "Comma-separated list of fields to display (e.g., question_text,value,type)",
